@@ -37,7 +37,15 @@ namespace WineStore.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Products>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Where(product=>product.Id == id).Select(product=> new ProductsDto{
+                Id = product.Id,
+                ProductName = product.ProductName,
+                Price = product.Price,
+                Discount = product.Discount,
+                StockAvailability = product.StockAvailability,
+                ImageUrl = product.ImageUrl,
+                CategoryName = product.Categories.CategoryName
+            }).ToListAsync();
 
             if (product == null)
             {
