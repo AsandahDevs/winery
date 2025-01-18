@@ -2,3 +2,5 @@
 *.sql
 *.md
 .env
+bin/
+obj/
