@@ -8,14 +8,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: dotnet watch
+    command: dotnet watch run
     working_dir: /app
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://localhost:80
+      - ASPNETCORE_URLS=http://localhost:5240
       - DOTNET_USE_POLLING_FILE_WATCHER=1
     ports:
-      - "5000:80"
+      - "5000:5240"
     env_file:
       - .env
     volumes:
