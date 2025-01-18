@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  # .NetApi service
+  web_api:
+    image: mcr.microsoft.com/dotnet/sdk:8.0-alpine
+    container_name: dotnet_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: dotnet watch run
+    working_dir: /app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5240
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    ports:
+      - "5240:5240"
+    volumes:
+      - .:/app
+      - /app/bin # exclude bin directory to prevent overwriting container dependancies
+      - /app/obj # exclude obj directory to prevent overwriting container dependancies

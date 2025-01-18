@@ -1,0 +1,6 @@
+.gitignore
+*.sql
+*.md
+.env
+bin/
+obj/
