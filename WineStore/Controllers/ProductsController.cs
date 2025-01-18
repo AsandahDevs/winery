@@ -74,15 +74,20 @@ namespace WineStore.Controllers
         public async Task<ActionResult<Products>> PostProducts(ProductsDto products)
         {
            var category = await _context.Categories.FirstOrDefaultAsync(cat=> cat.CategoryName == products.CategoryName);
+           
            if(category is null){
             category = new Categories { CategoryName = products.CategoryName};
+           _context.Categories.Add(category);
            }
+
            var product = new Products{
                 ProductName = products.ProductName,
                 Price = products.Price,
                 StockAvailability = products.StockAvailability,
+                ImageUrl = products.ImageUrl,
                 Categories = category
             };
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 

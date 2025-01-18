@@ -8,6 +8,7 @@ public class Products {
     public required double Price {get;set;}
     public double? Discount {get;set;}
     public required bool StockAvailability {get;set;}
+    public required string ImageUrl {get;set;}
     [ForeignKey("CategoryId")]
     public required Categories Categories {get;set;}
     public int CategoryId {get;set;}
@@ -19,6 +20,7 @@ public class ProductsDto {
     public required double Price {get;set;}
     public double? Discount {get;set;}
     public required bool StockAvailability {get;set;}
+    public required string ImageUrl {get;set;}
     public required string  CategoryName {get;set;}
 }
 
