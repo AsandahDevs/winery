@@ -18,3 +18,5 @@ services:
       - "5240:5240"
     volumes:
       - .:/app
+      - /app/bin
+      - /app/obj
