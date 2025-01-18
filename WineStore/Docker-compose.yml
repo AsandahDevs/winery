@@ -18,5 +18,5 @@ services:
       - "5240:5240"
     volumes:
       - .:/app
-      - /app/bin
-      - /app/obj
+      - /app/bin # exclude bin directory to prevent overwriting container dependancies
+      - /app/obj # exclude obj directory to prevent overwriting container dependancies
