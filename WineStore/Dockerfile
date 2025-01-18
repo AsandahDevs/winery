@@ -2,6 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /app
 
+# Install the dotnet-ef CLI tool globally
+RUN dotnet tool install --global dotnet-ef
+
+# Ensure the global tools directory is added to PATH
+ENV PATH="$PATH:/root/.dotnet/tools"
+
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
 RUN dotnet restore
