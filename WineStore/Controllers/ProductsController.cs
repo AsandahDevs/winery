@@ -18,36 +18,46 @@ namespace WineStore.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
+        public async Task<ActionResult<List<ProductsDto>?>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+           var products = await _context.Products.Select(product=> new ProductsDto{
+                Id = product.Id,
+                ProductName = product.ProductName,
+                Price = product.Price,
+                Discount = product.Discount,
+                StockAvailability = product.StockAvailability,
+                ImageUrl = product.ImageUrl,
+                CategoryName = product.Categories.CategoryName
+            }).ToListAsync();
+
+            return Ok(products);
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Products>> GetProducts(int id)
+        public async Task<ActionResult<Products>> GetProduct(int id)
         {
-            var products = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
-            if (products == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            return products;
+            return Ok(product);
         }
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProducts(int id, Products products)
+        public async Task<IActionResult> PutProduct(int id, Products product)
         {
-            if (id != products.Id)
+            if (id != product.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(products).State = EntityState.Modified;
+            _context.Entry(product).State = EntityState.Modified;
 
             try
             {
@@ -55,7 +65,7 @@ namespace WineStore.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductsExists(id))
+                if (!ProductExists(id))
                 {
                     return NotFound();
                 }
@@ -71,10 +81,10 @@ namespace WineStore.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Products>> PostProducts(ProductsDto products)
+        public async Task<ActionResult<Products>> PostProducts([FromBody] ProductsDto products)
         {
            var category = await _context.Categories.FirstOrDefaultAsync(cat=> cat.CategoryName == products.CategoryName);
-           
+
            if(category is null){
             category = new Categories { CategoryName = products.CategoryName};
            _context.Categories.Add(category);
@@ -91,26 +101,26 @@ namespace WineStore.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProducts", new { id = products.Id }, products);
+            return CreatedAtAction("GetProducts", new { id = products.Id }, product);
         }
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProducts(int id)
         {
-            var products = await _context.Products.FindAsync(id);
-            if (products == null)
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Products.Remove(products);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ProductsExists(int id)
+        private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Id == id);
         }
