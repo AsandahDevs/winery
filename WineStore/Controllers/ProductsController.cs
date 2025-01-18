@@ -71,9 +71,19 @@ namespace WineStore.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Products>> PostProducts(Products products)
+        public async Task<ActionResult<Products>> PostProducts(ProductsDto products)
         {
-            _context.Products.Add(products);
+           var category = await _context.Categories.FirstOrDefaultAsync(cat=> cat.CategoryName == products.CategoryName);
+           if(category is null){
+            category = new Categories { CategoryName = products.CategoryName};
+           }
+           var product = new Products{
+                ProductName = products.ProductName,
+                Price = products.Price,
+                StockAvailability = products.StockAvailability,
+                Categories = category
+            };
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProducts", new { id = products.Id }, products);
