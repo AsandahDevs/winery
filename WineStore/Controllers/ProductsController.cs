@@ -101,7 +101,7 @@ namespace WineStore.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProducts", new { id = products.Id }, product);
+            return CreatedAtAction("GetProducts", new { id = products.Id }, products);
         }
 
         // DELETE: api/Products/5
