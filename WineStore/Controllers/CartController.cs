@@ -76,12 +76,12 @@ namespace WineStore.Controllers
         // POST: api/Cart
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Cart>> PostCartItem(Cart cart)
+        public async Task<ActionResult<Cart>> PostCartItem([FromBody] Cart cart)
         {
             _context.Cart.Add(cart);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCart", new { id = cart.Id }, cart);
+            return CreatedAtAction("GetCartItems", new { id = cart.Id }, cart);
         }
 
         // DELETE: api/Cart/5
