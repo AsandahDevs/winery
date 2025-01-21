@@ -11,13 +11,18 @@ services:
     command: dotnet watch run --no-launch-profile
     working_dir: /app
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5240
-      - DOTNET_USE_POLLING_FILE_WATCHER=1
-      - ConnectionStrings__DatabaseConnection=Host=host.docker.internal;Port=5432;Username=postgres;Password=p0stgresdev!;Database=WineStoredb
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:5240
+      ConnectionStrings__DatabaseConnection: run/secrets/database_secrets
+    secrets:
+      - database_secrets
     ports:
       - "5240:5240"
     volumes:
       - .:/app
       - /app/bin # exclude bin directory to prevent overwriting container dependancies
       - /app/obj # exclude obj directory to prevent overwriting container dependancies
+
+secrets:
+  database_secrets:
+    file: secrets.txt
