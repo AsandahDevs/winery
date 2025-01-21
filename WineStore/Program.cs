@@ -15,7 +15,11 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml"));
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WineStore API", Version = "v1" });
 });
-var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection");
+
+// Read the database password from Docker secrets
+string dbPassword = File.ReadAllText("/run/secrets/database_secrets").Trim();
+
+var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection")?.Replace("secrets", dbPassword);
 builder.Services.AddDbContext<WineStoreContext>(opt =>
     opt.UseNpgsql(connectionString));
 

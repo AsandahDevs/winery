@@ -13,7 +13,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:5240
-      ConnectionStrings__DatabaseConnection: run/secrets/database_secrets
+      ConnectionStrings__DatabaseConnection: Host=host.docker.internal;Port=5432;Username=postgres;Database=WineStoredb;Password=secrets;
     secrets:
       - database_secrets
     ports:
