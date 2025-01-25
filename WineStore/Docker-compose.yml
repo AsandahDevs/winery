@@ -7,7 +7,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: sh -x ./dev.sh 
+    command:  dotnet watch run --no-launch-profile
     working_dir: /app
     environment:
       ASPNETCORE_ENVIRONMENT: Development

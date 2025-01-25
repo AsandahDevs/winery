@@ -2,9 +2,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /app
 
-# Copy bash script for installing dotnet-ef tools and enabling live reload features
-COPY dev.sh ./
-
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
 RUN dotnet restore
