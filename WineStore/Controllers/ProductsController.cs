@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WineStore.Data;
@@ -17,6 +18,7 @@ namespace WineStore.Controllers
         }
 
         // GET: api/Products
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<ProductsDto>?>> GetProducts()
         {

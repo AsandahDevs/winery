@@ -1,9 +1,13 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WineStore.Models;
 
 namespace WineStore.Data;
-public class WineStoreContext:DbContext {
-    public WineStoreContext(DbContextOptions<WineStoreContext> options):base(options){
+public class WineStoreContext:IdentityDbContext<IdentityUser>
+ {
+    public WineStoreContext(DbContextOptions<WineStoreContext> options):base(options)
+    {
     }
 
     public DbSet<Products> Products {get;set;} = null!;
