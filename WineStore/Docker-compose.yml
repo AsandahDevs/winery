@@ -4,11 +4,10 @@ services:
   # .NetApi service
   web_api:
     image: mcr.microsoft.com/dotnet/sdk:8.0-alpine
-    container_name: dotnet_api
     build:
       context: .
       dockerfile: Dockerfile
-    command: dotnet watch run --no-launch-profile
+    command: sh -x ./dev.sh 
     working_dir: /app
     environment:
       ASPNETCORE_ENVIRONMENT: Development
@@ -20,7 +19,6 @@ services:
       - "5240:5240"
     volumes:
       - .:/app
-      - ./secrets.txt:/run/secrets/database_secrets:ro
       - /app/bin # exclude bin directory to prevent overwriting container dependancies
       - /app/obj # exclude obj directory to prevent overwriting container dependancies
 
