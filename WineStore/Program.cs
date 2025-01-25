@@ -6,8 +6,6 @@ using WineStore.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<WineStoreContext>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -23,6 +21,10 @@ string dbPassword = File.ReadAllText("/run/secrets/database_secrets").Trim();
 var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection")?.Replace("secrets", dbPassword);
 builder.Services.AddDbContext<WineStoreContext>(opt =>
     opt.UseNpgsql(connectionString));
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<WineStoreContext>();
 
 var app = builder.Build();
 
